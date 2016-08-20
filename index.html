@@ -132,17 +132,21 @@ Feel free to log Issues or submit Pull Requests with improvements.</p>
 <p>To authenticate API requests, event organizers (customers of EventHero) need to create an access key for an event and communicate the access key to developers accessing API.
 Access keys are event specific, and perform dual function: authentication of the caller of API, and authorization of the caller to access a particular event.</p>
 
-<p>Access key needs to be passed in HTTP Authorization header using Bearer scheme: <code class="prettyprint">Authorization: Bearer &lt;your access key&gt;</code></p>
+<p>Access key needs to be passed in HTTP Authorization header using Bearer scheme: <code class="prettyprint">Authorization: Bearer &lt;ACCESS_KEY&gt;</code></p>
 
 <blockquote>
 <p>Example API call with authorization header:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://app.eventhero.io/api/registrations"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer &lt;your access key&gt;"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer &lt;ACCESS_KEY&gt;"</span> <span class="se">\</span>
   ...
 </code></pre>
 
-<h1 id="media-types-and-versioning">Media Types and Versioning</h1>
+<aside class="notice">
+Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
+</aside>
+
+<h1 id="versioning-and-media-types">Versioning and Media Types</h1>
 
 <p>EventHero API uses different content types for versioning.
 Currently the v1 version of the API accepts only <code class="prettyprint">application/vnd.eventhero.registrations.v1+json</code> media type.
@@ -159,9 +163,9 @@ When calling API endpoints the HTTP requests need to include the following Conte
 
 <p>Please note that incompatible media types (e.g. <code class="prettyprint">application/json</code>) will be rejected with HTTP 415 error code.</p>
 
-<h1 id="requests">Requests</h1>
+<h1 id="registration-confirmed-activity">Registration Confirmed Activity</h1>
 
-<h2 id="registration-confirmed">Registration Confirmed</h2>
+<h2 id="request-structure">Request Structure</h2>
 
 <blockquote>
 <p>Given the following JSON body in <code class="prettyprint">reg_confirmed.json</code> file</p>
@@ -213,15 +217,166 @@ When calling API endpoints the HTTP requests need to include the following Conte
 <p>The above command returns HTTP 200 success and JSON structure like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-</span><span class="err">}</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<aside class="success">
-Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
-</aside>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>&ldquo;registration.confirmed&rdquo;</td>
+<td>Name of the activity</td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>Object that contains information on the activity</td>
+</tr>
+<tr>
+<td>data.ref</td>
+<td>None</td>
+<td>Registration reference. Should be unique across all registrations for this event. You may use identifiers in your system as the ref value.</td>
+</tr>
+<tr>
+<td>data.type</td>
+<td>Object</td>
+<td>Object representing <a href="#registration-type">Registration Type</a></td>
+</tr>
+<tr>
+<td>data.event</td>
+<td>Object</td>
+<td>Object representing <a href="#event">Event</a></td>
+</tr>
+<tr>
+<td>data.registrant</td>
+<td>Object</td>
+<td>Object representing <a href="#registrant">Registrant</a></td>
+</tr>
+</tbody></table>
 
-<p>This endpoint retrieves all kittens.</p>
+<h3 id="registration-type">Registration Type</h3>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ref</td>
+<td>&ldquo;123&rdquo;</td>
+<td>ID representing registration type</td>
+</tr>
+<tr>
+<td>name</td>
+<td>&ldquo;General Admission&rdquo;</td>
+<td>Name for the registration type</td>
+</tr>
+</tbody></table>
+
+<h3 id="event">Event</h3>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td>&ldquo;http://example.com/my-event&rdquo;</td>
+<td>URL for the source event</td>
+</tr>
+<tr>
+<td>name</td>
+<td>&ldquo;My Event&rdquo;</td>
+<td>Name for the event</td>
+</tr>
+</tbody></table>
+
+<h3 id="registrant">Registrant</h3>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+<td>&ldquo;Lindsey&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>&ldquo;Tessmer&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>job_title</td>
+<td>&ldquo;QA&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>company</td>
+<td>&ldquo;Redargyle&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>phone</td>
+<td>&ldquo;(585) 412-2153&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>email</td>
+<td>&ldquo;lindsey@redargyle.com&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>address</td>
+<td>Object</td>
+<td>Object representing address of the registrant</td>
+</tr>
+<tr>
+<td>address.street_address</td>
+<td>&ldquo;2220 Sylvania Avenue&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>address.extended_address</td>
+<td>&ldquo;#33&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>address.locality</td>
+<td>&ldquo;Knoxville&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>address.region</td>
+<td>&ldquo;TN&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>address.postal_code</td>
+<td>&ldquo;37920&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>address.country</td>
+<td>&ldquo;USA&rdquo;</td>
+<td></td>
+</tr>
+</tbody></table>
 
 <h3 id="http-request">HTTP Request</h3>
 
