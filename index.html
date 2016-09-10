@@ -88,7 +88,7 @@
     </style>
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all.js"></script>
+      <script src="javascripts/all_nosearch.js"></script>
   </head>
 
   <body class="index" data-languages="[]">
@@ -102,10 +102,6 @@
       <img src="images/logo.png" />
         <div class="lang-selector">
         </div>
-        <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
-        </div>
-        <ul class="search-results"></ul>
       <div id="toc">
       </div>
         <ul class="toc-footer">
@@ -118,11 +114,11 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<h2 id="send-your-participant-data-to-eventhero-for-on-site-management-and-event-analytics">Send your participant data to EventHero for on-site management and event analytics</h2>
+<h3 id="send-your-participant-data-to-eventhero-for-on-site-management-and-event-analytics">Send your participant data to EventHero for on-site management and event analytics</h3>
 
 <h3 id="simple-integration-with-your-event-registration-system">Simple Integration with Your Event Registration System</h3>
 
-<p>Your EventHero account has the ability to receive changes from your registration system whenever a change occurs to your event.  </p>
+<p>Your EventHero account has the ability to receive changes from your registration system whenever a change occurs to your event.</p>
 
 <p>For a complete list of current registration system integrations, see our <a href="http://eventhero.io/partners/">Partner Directory</a>.</p>
 
@@ -153,7 +149,7 @@
 </code></pre>
 
 <aside class="notice">
-Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
+Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with your event access key!
 </aside>
 
 <h1 id="versioning-and-media-types">Versioning and Media Types</h1>
@@ -175,9 +171,9 @@ Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
 
 <p>Please note that incompatible media types (e.g. <code class="prettyprint">application/json</code>) will be rejected with HTTP 415 error code.</p>
 
-<h1 id="registration-confirmed-activity">Registration Confirmed Activity</h1>
+<h1 id="request-payloads">Request Payloads</h1>
 
-<h2 id="request-structure">Request Structure</h2>
+<h2 id="registration-confirmed">Registration Confirmed</h2>
 
 <blockquote>
 <p>Given the following JSON body in <code class="prettyprint">reg_confirmed.json</code> file</p>
@@ -390,82 +386,53 @@ Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
 </tr>
 </tbody></table>
 
-<h3 id="http-request">HTTP Request</h3>
+<h2 id="registration-cancelled">Registration Cancelled</h2>
 
-<p><code class="prettyprint">GET http://example.com/api/kittens</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
-<pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<blockquote>
+<p>Given the following JSON body in <code class="prettyprint">reg_cancelled.json</code> file</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"registration.cancelled"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reg:1"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre class="highlight shell"><code>cat cancelled.json &gt; curl -i -X POST -d @- <span class="se">\</span>
+  -H <span class="s1">'Content-Type: application/vnd.eventhero.registrations.v1+json'</span> <span class="se">\</span>
+  -H <span class="s1">'Authorization: Bearer &lt;ACCESS_KEY&gt;'</span> <span class="se">\</span>
+  https://app.eventhero.io/api/registrations
 </code></pre>
 
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>The above command returns HTTP 200 success and JSON structure like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
-
-<h3 id="url-parameters">URL Parameters</h3>
-
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Key</th>
+<th>Example</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>type</td>
+<td>&ldquo;registration.cancelled&rdquo;</td>
+<td>Name of the activity</td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>Object that contains information on the activity</td>
+</tr>
+<tr>
+<td>data.ref</td>
+<td>&ldquo;123&rdquo;</td>
+<td>Registration reference. Should match previously submitted ref for <code class="prettyprint">registration.confirmed</code> activity.</td>
 </tr>
 </tbody></table>
 
@@ -485,7 +452,7 @@ Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized &ndash; Your API access key is invalid. See []</td>
+<td>Unauthorized &ndash; Your API access key is invalid. See <a href="#authentication">Authentication</a></td>
 </tr>
 <tr>
 <td>415</td>
