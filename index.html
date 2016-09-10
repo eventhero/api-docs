@@ -118,10 +118,19 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<p>Welcome to the EventHero API!</p>
+<h2 id="send-your-participant-data-to-eventhero-for-on-site-management-and-event-analytics">Send your participant data to EventHero for on-site management and event analytics</h2>
 
-<p>This API documentation page is created from <a href="https://github.com/eventhero/api-docs">EventHero API Docs repository</a>.
-Feel free to log Issues or submit Pull Requests with improvements.</p>
+<h3 id="simple-integration-with-your-event-registration-system">Simple Integration with Your Event Registration System</h3>
+
+<p>Your EventHero account has the ability to receive changes from your registration system whenever a change occurs to your event.  </p>
+
+<p>For a complete list of current registration system integrations, see our <a href="http://eventhero.io/partners/">Partner Directory</a>.</p>
+
+<p>If your registration system is not listed contact us - or connect it yourself using our API.</p>
+
+<p>This API documentation page is created from the <a href="https://github.com/eventhero/api-docs">EventHero API Docs repository</a>.</p>
+
+<p>Feel free to log Issues or submit Pull Requests with improvements.</p>
 
 <h1 id="endpoint">Endpoint</h1>
 
@@ -129,10 +138,11 @@ Feel free to log Issues or submit Pull Requests with improvements.</p>
 
 <h1 id="authentication">Authentication</h1>
 
-<p>To authenticate API requests, event organizers (customers of EventHero) need to create an access key for an event and communicate the access key to developers accessing API.
-Access keys are event specific, and perform dual function: authentication of the caller of API, and authorization of the caller to access a particular event.</p>
+<p>To authenticate API requests, event organizers (customers of EventHero) need to create an access key for an event and communicate the access key to developers accessing API.</p>
 
-<p>Access key needs to be passed in HTTP Authorization header using Bearer scheme: <code class="prettyprint">Authorization: Bearer &lt;ACCESS_KEY&gt;</code></p>
+<p>Access keys are event specific, and perform dual function: authentication of the caller of the API, and authorization of the caller to access a particular event.</p>
+
+<p>Access key needs to be passed in the HTTP Authorization header using Bearer scheme: <code class="prettyprint">Authorization: Bearer &lt;ACCESS_KEY&gt;</code></p>
 
 <blockquote>
 <p>Example API call with authorization header:</p>
@@ -148,9 +158,11 @@ Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
 
 <h1 id="versioning-and-media-types">Versioning and Media Types</h1>
 
-<p>EventHero API uses different content types for versioning.
-Currently the v1 version of the API accepts only <code class="prettyprint">application/vnd.eventhero.registrations.v1+json</code> media type.
-When calling API endpoints the HTTP requests need to include the following Content-Type header:
+<p>EventHero API uses different content types for versioning.</p>
+
+<p>Currently the v1 version of the API accepts only <code class="prettyprint">application/vnd.eventhero.registrations.v1+json</code> media type.</p>
+
+<p>When calling API endpoints the HTTP requests need to include the following Content-Type header:
 <code class="prettyprint">Content-Type: application/vnd.eventhero.registrations.v1+json</code></p>
 
 <blockquote>
