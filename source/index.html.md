@@ -8,16 +8,16 @@ toc_footers:
 includes:
   - errors
 
-search: true
+search: false
 ---
 
 # Introduction
 
-## Send your participant data to EventHero for on-site management and event analytics
+### Send your participant data to EventHero for on-site management and event analytics
 
 ### Simple Integration with Your Event Registration System
 
-Your EventHero account has the ability to receive changes from your registration system whenever a change occurs to your event.  
+Your EventHero account has the ability to receive changes from your registration system whenever a change occurs to your event.
 
 For a complete list of current registration system integrations, see our [Partner Directory](http://eventhero.io/partners/).
 
@@ -47,7 +47,7 @@ curl "https://app.eventhero.io/api/registrations" \
   ...
 ```
 <aside class="notice">
-Remember — to replace &lt;ACCESS_KEY&gt; with your event access key!
+Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with your event access key!
 </aside>
 
 # Versioning and Media Types
@@ -69,9 +69,9 @@ curl "https://app.eventhero.io/api/registrations" \
 
 Please note that incompatible media types (e.g. `application/json`) will be rejected with HTTP 415 error code.
 
-# Registration Confirmed Activity
+# Request Payloads
 
-## Request Structure
+## Registration Confirmed
 
 > Given the following JSON body in `reg_confirmed.json` file
 
@@ -131,7 +131,7 @@ cat reg_confirmed.json > curl -i -X POST -d @- \
 
 Key | Example | Description
 --- | ------- | -----------
-type      | "registration.confirmed" | Name of the activity
+type | "registration.confirmed" | Name of the activity
 data |  | Object that contains information on the activity
 data.ref | None | Registration reference. Should be unique across all registrations for this event. You may use identifiers in your system as the ref value.
 data.type | Object | Object representing [Registration Type](#registration-type)
@@ -171,68 +171,36 @@ address.postal_code | "37920" | |
 address.country | "USA" | |
 
 
-### HTTP Request
+## Registration Cancelled
 
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> Given the following JSON body in `reg_cancelled.json` file
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "type": "registration.cancelled",
+  "data": {
+    "ref": "reg:1"
+  }
 }
 ```
 
-This endpoint retrieves a specific kitten.
+```shell
+cat cancelled.json > curl -i -X POST -d @- \
+  -H 'Content-Type: application/vnd.eventhero.registrations.v1+json' \
+  -H 'Authorization: Bearer <ACCESS_KEY>' \
+  https://app.eventhero.io/api/registrations
+```
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+> The above command returns HTTP 200 success and JSON structure like this:
 
-### HTTP Request
+```json
+{
+  "status": 200
+}
+```
 
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
+Key | Example | Description
+--- | ------- | -----------
+type | "registration.cancelled" | Name of the activity
+data |  | Object that contains information on the activity
+data.ref | "123" | Registration reference. Should match previously submitted ref for `registration.confirmed` activity.
