@@ -114,9 +114,7 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<h3 id="send-your-participant-data-to-eventhero-for-on-site-management-and-event-analytics">Send your participant data to EventHero for on-site management and event analytics</h3>
-
-<h3 id="simple-integration-with-your-event-registration-system">Simple Integration with Your Event Registration System</h3>
+<h3 id="send-your-registration-data-to-eventhero-for-on-site-management-and-event-analytics">Send your registration data to EventHero for on-site management and event analytics</h3>
 
 <p>Your EventHero account has the ability to receive changes from your registration system whenever a change occurs to your event.</p>
 
@@ -124,9 +122,8 @@
 
 <p>If your registration system is not listed contact us - or connect it yourself using our API.</p>
 
-<p>This API documentation page is created from the <a href="https://github.com/eventhero/api-docs">EventHero API Docs repository</a>.</p>
-
-<p>Feel free to log Issues or submit Pull Requests with improvements.</p>
+<p>This API documentation page is created from the <a href="https://github.com/eventhero/api-docs">EventHero API Docs repository</a>.
+Feel free to log Issues or submit Pull Requests with improvements.</p>
 
 <h1 id="endpoint">Endpoint</h1>
 
@@ -169,7 +166,18 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
   ...
 </code></pre>
 
-<p>Please note that incompatible media types (e.g. <code class="prettyprint">application/json</code>) will be rejected with HTTP 415 error code.</p>
+<p>Please note that incompatible media types (e.g. very common <code class="prettyprint">application/json</code>) will be rejected with HTTP 415 error code.</p>
+
+<h1 id="registration-id">Registration ID</h1>
+
+<p>All submitted registration activities need to include &ldquo;id&rdquo; field, which represents an instance of the registration in your system.
+The &ldquo;id&rdquo; value may be used to reference previously submitted registrations for modifications or cancellations.
+For example to cancel a previously submitted registration, you can send &lsquo;registration.cancelled&rsquo; request that contains the same registration &ldquo;id&rdquo;.</p>
+
+<p>You are free to choose how you generate registration ID for requests submitted to EventHero API.
+It does not have to mean anything to event organizer, although you may choose to use order number or registration number as the registration id.</p>
+
+<p>The value of registration ID must be unique within the scope of event (or withing the same access key).</p>
 
 <h1 id="request-payloads">Request Payloads</h1>
 
@@ -181,9 +189,9 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"registration.confirmed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reg:1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reg-1"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rt:234"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gen-admission-1"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General Admission"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -208,7 +216,7 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"answers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"What is your T-shirt size?"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"q-123"</span><span class="p">,</span><span class="w"> </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"What is your T-shirt size?"</span><span class="w"> </span><span class="p">},</span><span class="w">
         </span><span class="nt">"answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XXL"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
@@ -247,9 +255,9 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
 <td>Object that contains information on the activity</td>
 </tr>
 <tr>
-<td>data.ref</td>
-<td>None</td>
-<td>Registration reference. Should be unique across all registrations for this event. You may use identifiers in your system as the ref value.</td>
+<td>data.id</td>
+<td>&ldquo;reg-1&rdquo;</td>
+<td>Registration reference. Should be unique across all registrations for this event.</td>
 </tr>
 <tr>
 <td>data.type</td>
@@ -266,6 +274,11 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
 <td>Object</td>
 <td>Object representing <a href="#registrant">Registrant</a></td>
 </tr>
+<tr>
+<td>data.answers</td>
+<td>Array</td>
+<td>Array of <a href="#answer">Answers</a></td>
+</tr>
 </tbody></table>
 
 <h3 id="registration-type">Registration Type</h3>
@@ -278,9 +291,9 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
 </tr>
 </thead><tbody>
 <tr>
-<td>ref</td>
+<td>id</td>
 <td>&ldquo;123&rdquo;</td>
-<td>ID representing registration type</td>
+<td>ID representing registration type identifier</td>
 </tr>
 <tr>
 <td>name</td>
@@ -386,6 +399,32 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
 </tr>
 </tbody></table>
 
+<h3 id="answer">Answer</h3>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>question.id</td>
+<td>&ldquo;q-123&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>question.text</td>
+<td>&ldquo;What is your T-shirt size?&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>answer</td>
+<td>&ldquo;XXL&rdquo;</td>
+<td></td>
+</tr>
+</tbody></table>
+
 <h2 id="registration-cancelled">Registration Cancelled</h2>
 
 <blockquote>
@@ -394,7 +433,7 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"registration.cancelled"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reg:1"</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reg-1"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -430,9 +469,9 @@ Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with y
 <td>Object that contains information on the activity</td>
 </tr>
 <tr>
-<td>data.ref</td>
-<td>&ldquo;123&rdquo;</td>
-<td>Registration reference. Should match previously submitted ref for <code class="prettyprint">registration.confirmed</code> activity.</td>
+<td>data.id</td>
+<td>&ldquo;reg-1&rdquo;</td>
+<td>Registration ID. Should match previously submitted id for <code class="prettyprint">registration.confirmed</code> activity.</td>
 </tr>
 </tbody></table>
 
