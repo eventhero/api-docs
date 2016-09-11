@@ -13,9 +13,7 @@ search: false
 
 # Introduction
 
-### Send your participant data to EventHero for on-site management and event analytics
-
-### Simple Integration with Your Event Registration System
+### Send your registration data to EventHero for on-site management and event analytics
 
 Your EventHero account has the ability to receive changes from your registration system whenever a change occurs to your event.
 
@@ -24,7 +22,6 @@ For a complete list of current registration system integrations, see our [Partne
 If your registration system is not listed contact us - or connect it yourself using our API.
 
 This API documentation page is created from the [EventHero API Docs repository](https://github.com/eventhero/api-docs).
-
 Feel free to log Issues or submit Pull Requests with improvements.
 
 # Endpoint
@@ -67,7 +64,18 @@ curl "https://app.eventhero.io/api/registrations" \
   ...
 ```
 
-Please note that incompatible media types (e.g. `application/json`) will be rejected with HTTP 415 error code.
+Please note that incompatible media types (e.g. very common `application/json`) will be rejected with HTTP 415 error code.
+
+# Registration ID
+
+All submitted registration activities need to include "id" field, which represents an instance of the registration in your system.
+The "id" value may be used to reference previously submitted registrations for modifications or cancellations.
+For example to cancel a previously submitted registration, you can send 'registration.cancelled' request that contains the same registration "id".
+
+You are free to choose how you generate registration ID for requests submitted to EventHero API.
+It does not have to mean anything to event organizer, although you may choose to use order number or registration number as the registration id.
+
+The value of registration ID must be unique within the scope of event (or withing the same access key).
 
 # Request Payloads
 
@@ -79,9 +87,9 @@ Please note that incompatible media types (e.g. `application/json`) will be reje
 {
   "type": "registration.confirmed",
   "data": {
-    "ref": "reg:1",
+    "id": "reg-1",
     "type": {
-      "id": "rt:234",
+      "id": "gen-admission-1",
       "name": "General Admission"
     },
     "event": {
@@ -106,7 +114,7 @@ Please note that incompatible media types (e.g. `application/json`) will be reje
     },
     "answers": [
       {
-        "question": { "label": "What is your T-shirt size?" },
+        "question": { "id": "q-123", "text": "What is your T-shirt size?" },
         "answer": "XXL"
       }
     ]
@@ -133,16 +141,17 @@ Key | Example | Description
 --- | ------- | -----------
 type | "registration.confirmed" | Name of the activity
 data |  | Object that contains information on the activity
-data.ref | None | Registration reference. Should be unique across all registrations for this event. You may use identifiers in your system as the ref value.
+data.id | "reg-1" | Registration reference. Should be unique across all registrations for this event.
 data.type | Object | Object representing [Registration Type](#registration-type)
 data.event | Object | Object representing [Event](#event)
 data.registrant | Object | Object representing [Registrant](#registrant)
+data.answers | Array | Array of [Answers](#answer)
 
 ### Registration Type
 
 Key | Example | Description
 --- | ------- | -----------
-ref | "123" | ID representing registration type
+id | "123" | ID representing registration type identifier
 name | "General Admission" | Name for the registration type
 
 ### Event
@@ -170,6 +179,14 @@ address.region | "TN" | |
 address.postal_code | "37920" | |
 address.country | "USA" | |
 
+### Answer
+
+Key | Example | Description
+--- | ------- | -----------
+question.id | "q-123" | |
+question.text | "What is your T-shirt size?" | |
+answer | "XXL" | |
+
 
 ## Registration Cancelled
 
@@ -179,7 +196,7 @@ address.country | "USA" | |
 {
   "type": "registration.cancelled",
   "data": {
-    "ref": "reg:1"
+    "id": "reg-1"
   }
 }
 ```
@@ -203,4 +220,4 @@ Key | Example | Description
 --- | ------- | -----------
 type | "registration.cancelled" | Name of the activity
 data |  | Object that contains information on the activity
-data.ref | "123" | Registration reference. Should match previously submitted ref for `registration.confirmed` activity.
+data.id | "reg-1" | Registration ID. Should match previously submitted id for `registration.confirmed` activity.
