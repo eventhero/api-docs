@@ -131,9 +131,9 @@ Feel free to log Issues or submit Pull Requests with improvements.</p>
 
 <h1 id="authentication">Authentication</h1>
 
-<p>To authenticate API requests, event organizers (customers of EventHero) need to create an access key for an event and communicate the access key to developers accessing API.</p>
-
-<p>Access keys are event specific, and perform dual function: authentication of the caller of the API, and authorization of the caller to access a particular event.</p>
+<p>To publish registration data to an EventHero event, each event requires its own API Access Key.
+Event organizers (customers of EventHero) need to create an access key for an event and communicate the access key to developers accessing API.
+Access keys are event specific, and perform dual function: authentication of the caller of the API, and authorization of the caller to access a particular event.</p>
 
 <p>Access key needs to be passed in the HTTP Authorization header using Bearer scheme: <code class="prettyprint">Authorization: Bearer &lt;ACCESS_KEY&gt;</code></p>
 
@@ -148,6 +148,14 @@ Feel free to log Issues or submit Pull Requests with improvements.</p>
 <aside class="notice">
 Remember to replace &lt;ACCESS_KEY&gt; in this documentation and examples with your event access key!
 </aside>
+
+<h2 id="generating-an-api-access-key">Generating an API Access Key</h2>
+
+<p>To generate the key for a registration system, visit the Event Summary screen for your event (https://app.eventhero.io/manage/xxxxxxxxxxxxxxxxxxxxxxxx).</p>
+
+<p>Enter the name for your key (e.g. MyRegSystem-EventName) and select Create.</p>
+
+<p>You will be presented with an API Access Key that is 64 characters in length.</p>
 
 <h1 id="versioning-and-media-types">Versioning and Media Types</h1>
 
